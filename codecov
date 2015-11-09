@@ -487,8 +487,9 @@ else
 
     # all other gcov
     say "  ${e}->${x} Running gcov"
-    bash -c "find $proj_root -type f -name '*.gcno' $gcov_ignore -exec gcov -pb $gcovargs {} +" || true
-
+    find $proj_root -type f -name '*.gcno' $gcov_ignore | while read file; do
+      gcov -o $(dirname $file) -pb $gcovargs $file > /dev/null
+    done
   else
     say "${r}**>${x} gcov disable"
   fi
